@@ -31,7 +31,14 @@ The challenge specifies Node.js 22. The entry is dependency-free and uses only N
 
 The current version passed all three published practice cases with exact output matching. The official local grader ran it twice and reproduced the same result hash.
 
-In paired local runs on Node.js 22.23.5, compared with the first submitted version on the same machine, streaming answer serialization reduced median CPU time and peak memory. These are local measurements, not a prediction of the final server benchmark or leaderboard position.
+In 10 paired local runs on Node.js 22.23.5, compared with the first submitted version on the same machine:
+
+- Median CPU time decreased from 1.32 s to 1.23 s (6.8% lower).
+- Median wall time decreased from 0.875 s to 0.84 s.
+- Median peak memory decreased from 188,542 KB to 175,766 KB (6.8% lower).
+- Final `answers.json` files were byte-for-byte identical.
+
+These are local measurements, not a prediction of the final server benchmark or leaderboard position.
 
 ## Source and licences
 
