@@ -19,6 +19,8 @@ The implementation applies two targeted optimizations to the reference code:
 1. Markdown inline rendering accumulates plain-text chunks and escapes them in batches, with a fast path for ordinary text.
 2. Word counting uses an allocation-free scan with the ECMAScript whitespace rules instead of allocating a regular-expression match array.
 
+The driver adds a third optimization: it serializes and writes each case's answer as it is produced, instead of retaining all answer objects and building one large JSON string. It uses single-element array serialization to preserve JSON array element semantics, including `toJSON` keys and undefined values.
+
 The goal is exact output equivalence, not changing the generated site.
 
 ## Runtime
@@ -27,9 +29,9 @@ The challenge specifies Node.js 22. The entry is dependency-free and uses only N
 
 ## Local validation
 
-The current working version has passed the three published practice cases with exact output matching. It was also checked against the reference implementation with randomized Markdown inputs and word-count equivalence tests.
+The current version passed all three published practice cases with exact output matching. The official local grader ran it twice and reproduced the same result hash.
 
-On the development machine, repeated local runs measured approximately 0.85–0.90 seconds wall time versus approximately 1.33–1.34 seconds for the unmodified baseline (about 33–36% lower wall time). These are local measurements, not a prediction of the final server benchmark or leaderboard position.
+In paired local runs on Node.js 22.23.5, compared with the first submitted version on the same machine, streaming answer serialization reduced median CPU time and peak memory. These are local measurements, not a prediction of the final server benchmark or leaderboard position.
 
 ## Source and licences
 
@@ -45,5 +47,3 @@ The root `LICENSE` is retained from the challenge kit. Please preserve all licen
 
 Static Site Generator Speed Challenge  
 https://make.fun/bounty/site-generator-speed-01-run-20261122
-
-[executed on device: aleksandar-System-Product-Name (bcb0ae1d-a24f-4ff3-ae8f-5e3532f78819)]
